@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ServerService } from './serverService.service';
+import { Response } from '@angular/http';
 
 @Component({
   selector: 'app-root',
@@ -6,8 +8,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  firbaseLink="https://http-request-project-661a3.firebaseio.com/";
-
   servers=[
     {
       name:'TestServer',
@@ -25,13 +25,40 @@ export class AppComponent {
       serverID:this.generateId()
     }    
   ]
-
+constructor(private serverService:ServerService){}
   onAddServer(serverName:string){
   this.servers.push({
-    name:name,
+    name:serverName,
     capacity:50,
     serverID:this.generateId()
   })
+  }
+  onSave()
+  {
+    this.serverService.saveServer(this.servers).subscribe(
+      (response)=>{console.log(response);
+        (error)=>{console.log(error);
+        }
+      }
+    )
+  }
+  onUpdate()
+  {
+    this.serverService.updateServer(this.servers).subscribe(
+      (response)=>{console.log(response);},
+        (error)=>{console.log(error);}            
+    );
+  }
+  onGet()
+  {
+    this.serverService.getServer().subscribe(
+      (response: Response)=>{
+        const data = response.json();
+        console.log(data);        
+      },
+      (error)=>{console.log(error);
+      }
+    )
   }
   generateId(){
     return Math.round(Math.random()*1000);
