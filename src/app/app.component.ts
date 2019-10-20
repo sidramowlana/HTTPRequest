@@ -8,59 +8,62 @@ import { Response } from '@angular/http';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  servers=[
+  servers = [
     {
-      name:'TestServer',
-      capacity:100,
-      serverID:this.generateId()
+      name: 'TestServer',
+      capacity: 100,
+      serverID: this.generateId()
     },
     {
-      name:'My Server',
-      capacity:10,
-      serverID:this.generateId()
+      name: 'My Server',
+      capacity: 10,
+      serverID: this.generateId()
     },
     {
-      name:'Live Server',
-      capacity:30,
-      serverID:this.generateId()
-    }    
+      name: 'Live Server',
+      capacity: 30,
+      serverID: this.generateId()
+    }
   ]
-constructor(private serverService:ServerService){}
-  onAddServer(serverName:string){
-  this.servers.push({
-    name:serverName,
-    capacity:50,
-    serverID:this.generateId()
-  })
+  constructor(private serverService: ServerService) { }
+  onAddServer(serverName: string) {
+    this.servers.push({
+      name: serverName,
+      capacity: 50,
+      serverID: this.generateId()
+    })
   }
-  onSave()
-  {
+  onSave() {
     this.serverService.saveServer(this.servers).subscribe(
-      (response)=>{console.log(response);
-        (error)=>{console.log(error);
-        }
-      }
+      (response) => console.log(response),
+      (error) => console.log(error)
+
     )
   }
-  onUpdate()
-  {
+  onUpdate() {
     this.serverService.updateServer(this.servers).subscribe(
-      (response)=>{console.log(response);},
-        (error)=>{console.log(error);}            
+      (response: Response) => {
+        const data = response.json()
+        console.log(data);
+      },
+      (error) => { console.log(error); }
     );
   }
-  onGet()
-  {
+  onGet() {
     this.serverService.getServer().subscribe(
-      (response: Response)=>{
-        const data = response.json();
-        console.log(data);        
-      },
-      (error)=>{console.log(error);
+      (server: any[]) => {
+      this.servers = server;
+        console.log(server)},
+      // (response: Response)=>{
+      //   const data = response.json();
+      //   console.log(data);        
+      // },
+      (error) => {
+        console.log(error);
       }
     )
   }
-  generateId(){
-    return Math.round(Math.random()*1000);
+  generateId() {
+    return Math.round(Math.random() * 1000);
   }
 }
