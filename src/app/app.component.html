@@ -1,19 +1,20 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <h1>{{appName |async}}</h1>
       <input #serverName type="text">
       <br>
       <button class="btn btn-primary" (click)="onAddServer(serverName.value)">Add Server</button>
-      <br><br>
+      <br>
       <button class="btn btn-primary" (click)="onSave()">Save Server</button>
       <button class="btn btn-primary" (click)="onGet()">Get Servers</button>
-      <button class="btn btn-primary" (click)="onUpdate()">Update</button>
+      <button class="btn btn-primary" (click)="onUpdate()">Update Server</button>
       <hr>
-      <ul class="list-group"
-      *ngFor="let server of servers">
+      <ul class="list-group" *ngFor="let server of servers">
         <li class="list-group-item">
-{{server.name}} (ID:{{server.serverID}})
-        </li>      </ul>
+          {{server.name}} (ID:{{server.serverID}})
+        </li>
+      </ul>
     </div>
   </div>
 </div>

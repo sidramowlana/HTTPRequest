@@ -8,6 +8,7 @@ import { Response } from '@angular/http';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  
   servers = [
     {
       name: 'TestServer',
@@ -26,6 +27,8 @@ export class AppComponent {
     }
   ]
   constructor(private serverService: ServerService) { }
+  
+  appName = this.serverService.getAppName();
   onAddServer(serverName: string) {
     this.servers.push({
       name: serverName,
@@ -46,7 +49,7 @@ export class AppComponent {
         const data = response.json()
         console.log(data);
       },
-      (error) => { console.log(error); }
+      (error:Response) => { console.log(error); }
     );
   }
   onGet() {
@@ -54,10 +57,6 @@ export class AppComponent {
       (server: any[]) => {
       this.servers = server;
         console.log(server)},
-      // (response: Response)=>{
-      //   const data = response.json();
-      //   console.log(data);        
-      // },
       (error) => {
         console.log(error);
       }
